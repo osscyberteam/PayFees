@@ -15,9 +15,9 @@ function onMethodChange() {
     receiptDetails.style.display = "block";
     
     var selectedText = "";
-    if(paymentOption === "bkash") selectedText = "বিকাশ (01700000000)";
-    else if(paymentOption === "nagad") selectedText = "নগদ (01800000000)";
-    else if(paymentOption === "rocket") selectedText = "রকেট (01900000000)";
+    if(paymentOption === "bkash") selectedText = "বিকাশ (01410892693)";
+    else if(paymentOption === "nagad") selectedText = "নগদ (01410892693)";
+    else if(paymentOption === "rocket") selectedText = "রকেট (01410892693)";
 
     instruction.innerText = "আমাদের " + selectedText + " নম্বরে টাকা সেন্ড মানি করে নিচের তথ্যগুলো পূরণ করুন:";
     
