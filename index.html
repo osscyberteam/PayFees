@@ -19,7 +19,7 @@
       <li><strong>সার্টিফিকেট ফি:</strong> ২১৮ টাকা</li>
       <li><strong>রিনিউ সার্টিফিকেট ফি:</strong> ৩২৮ টাকা</li>
       <li><strong>সোশ্যাল মিডিয়া একাউন্ট প্রবলেম ফিক্স ফি:</strong> ১৪৩ টাকা</li>
-      <li><strong>আদার্স:</strong> ০০ টাকা</li>
+      <li><strong>আদার্স ফি:</strong> ০০ টাকা</li>
     </ul>
   </div>
 
@@ -76,10 +76,13 @@
         <input type="text" id="trx_id" name="trx_id" placeholder="যেমন: 8N7A6D...">
       </div>
 
-      <!-- ৭. কত টাকা পাঠিয়েছেন (Required) -->
+<!-- ৭. কত টাকা পাঠিয়েছেন (Required) -->
       <div class="form-group">
         <label for="amount">কত টাকা পাঠিয়েছেন (Amount BDT) *</label>
-        <input type="number" id="amount" name="amount" placeholder="টাকার পরিমাণ">
+        <div class="amount-wrapper">
+          <input type="number" id="amount" name="amount" placeholder="টাকার পরিমাণ">
+          <span id="plus-icon" class="plus-icon">+</span>
+        </div>
       </div>
 
       <!-- সার্টিফিকেট সেকশন -->
