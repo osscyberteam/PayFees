@@ -81,9 +81,26 @@ function updateAmount() {
   var reasonSelect = document.getElementById("payment_reason");
   var selectedOption = reasonSelect.options[reasonSelect.selectedIndex];
   var amountInput = document.getElementById("amount");
+  var plusIcon = document.getElementById("plus-icon");
 
   if (selectedOption && selectedOption.dataset.amount) {
-    amountInput.value = selectedOption.dataset.amount;
+    var val = selectedOption.value;
+    var baseAmount = selectedOption.dataset.amount;
+
+    // সোশ্যাল মিডিয়া প্রবলেম ফিক্স বা আদার্স হলে প্লাস চিহ্ন দেখাবে এবং টাইপ করার সুযোগ দিবে
+    if (val === "social_fix" || val === "others") {
+      amountInput.value = baseAmount;
+      amountInput.readOnly = false; // ইউজার এডিট/টাইপ করতে পারবে
+      plusIcon.style.display = "inline"; // প্লাস চিহ্ন দেখাবে
+    } else {
+      amountInput.value = baseAmount;
+      amountInput.readOnly = true; // নির্দিষ্ট ফি হলে চেঞ্জ করা যাবে না
+      plusIcon.style.display = "none"; // প্লাস চিহ্ন হাইড থাকবে
+    }
+  } else {
+    amountInput.value = "";
+    amountInput.readOnly = false;
+    plusIcon.style.display = "none";
   }
 }
 
