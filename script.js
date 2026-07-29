@@ -35,58 +35,67 @@ function onMethodChange() {
     document.getElementById("amount").required = false;
   }
 }
-
-function updateDynamicFields() {
-  var reasonSelect = document.getElementById("payment_reason").value;
-  var paymentOption = document.getElementById("payment_option").value;
-  
-  var certFields = document.getElementById("cert-fields");
-  var problemFields = document.getElementById("problem-fields");
-
-  var userName = document.getElementById("user_name");
-  var userPhone = document.getElementById("user_phone");
-  var userAddress = document.getElementById("user_address");
-  var problemDetails = document.getElementById("problem_details");
-
-  if (paymentOption !== "" && reasonSelect !== "") {
-    if (reasonSelect === "certificate" || reasonSelect === "renew_certificate") {
-      certFields.style.display = "block";
-      problemFields.style.display = "none";
-      
-      userName.required = true;
-      userPhone.required = true;
-      userAddress.required = true;
-      problemDetails.required = false;
-    } else {
-      certFields.style.display = "none";
-      problemFields.style.display = "block";
-
-      userName.required = false;
-      userPhone.required = false;
-      userAddress.required = false;
-      problemDetails.required = true;
-    }
-  } else {
-    certFields.style.display = "none";
-    problemFields.style.display = "none";
-    
-    userName.required = false;
-    userPhone.required = false;
-    userAddress.required = false;
-    problemDetails.required = false;
-  }
-}
-
+// টাকা অটোমেটিক সাজানোর ফাংশন
 function updateAmount() {
   var reasonSelect = document.getElementById("payment_reason");
   var selectedOption = reasonSelect.options[reasonSelect.selectedIndex];
-  var amountInput = document.getElementById("amount");
-  var plusIcon = document.getElementById("plus-icon");
+  
+  var baseBox = document.getElementById("base-amount-box");
+  var baseText = document.getElementById("base-amount-text");
+  var plusSign = baseBox.querySelector(".plus-sign");
+  var extraInput = document.getElementById("extra_amount");
 
   if (selectedOption && selectedOption.dataset.amount) {
     var val = selectedOption.value;
     var baseAmount = selectedOption.dataset.amount;
 
+    // সোশ্যাল মিডিয়া ফিক্স বা আদার্স সিলেক্ট করলে "500 +" এবং অতিরিক্ত ইনপুট বক্স দেখাবে
+    if (val === "social_fix" || val === "others") {
+      baseText.innerText = baseAmount;
+      baseBox.style.display = "flex";
+      plusSign.style.display = "inline"; // + চিহ্ন দেখাবে
+      extraInput.style.display = "block"; // অতিরিক্ত ইনপুট ফিল্ড দেখাবে
+      extraInput.placeholder = "অতিরিক্ত টাকা (যদি থাকে)";
+      extraInput.value = ""; // ফিল্ড খালি রাখা হলো
+    } else {
+      // সার্টিফিকেট ফি এর ক্ষেত্রে কোন প্লাস বা এক্সট্রা ইনপুট থাকবে না
+      baseText.innerText = baseAmount;
+      baseBox.style.display = "flex"; 
+      plusSign.style.display = "none"; // + চিহ্ন হাইড থাকবে
+      extraInput.style.display = "none"; // ইনপুট বক্স হাইড থাকবে
+    }
+  } else {
+    baseBox.style.display = "none";
+  }
+
+  calculateTotalAmount();
+}
+
+// গুগল শিটে পাঠানোর জন্য টাকার ফর্ম্যাট তৈরি (যেমন: 500 + 200)
+function calculateTotalAmount() {
+  var reasonSelect = document.getElementById("payment_reason");
+  var selectedOption = reasonSelect.options[reasonSelect.selectedIndex];
+  var baseAmount = (selectedOption && selectedOption.dataset.amount) ? selectedOption.dataset.amount : "";
+  var extraAmount = document.getElementById("extra_amount").value.trim();
+
+  var finalAmountString = "";
+
+  if (baseAmount) {
+    // স্টুডেন্ট যদি অতিরিক্ত টাকা টাইপ করে (যেমন: 200)
+    if (extraAmount !== "" && extraAmount !== "0") {
+      finalAmountString = baseAmount + " + " + extraAmount;
+    } else {
+      // অতিরিক্ত কিছু না লিখলে শুধু বেস টাকা (যেমন: 500)
+      finalAmountString = baseAmount;
+    }
+  }
+
+  // শিটে পাঠানোর জন্য হিডেন ইনপুট ফিল্ডে '500 + 200' ফরম্যাট সেট করা
+  document.getElementById("amount").value = finalAmountString;
+  
+  // স্ক্রিনে ইউজারকে মোট টাকা বা লেখার ফর্ম্যাটটি দেখানো
+  document.getElementById("total-val").innerText = finalAmountString || "0";
+}
     // সোশ্যাল মিডিয়া প্রবলেম ফিক্স বা আদার্স হলে প্লাস চিহ্ন দেখাবে এবং টাইপ করার সুযোগ দিবে
     if (val === "social_fix" || val === "others") {
       amountInput.value = baseAmount;
