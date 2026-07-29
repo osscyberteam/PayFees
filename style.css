@@ -13,6 +13,27 @@ body {
   padding: 12px;
 }
 
+/* টাকার ইনপুট ও প্লাস আইকনের স্টাইল */
+.amount-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.amount-wrapper input {
+  padding-right: 35px; /* প্লাস চিহ্নের জন্য জায়গা খালি রাখা */
+}
+
+.plus-icon {
+  display: none; /* ডিফল্টভাবে লুকানো থাকবে */
+  position: absolute;
+  right: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1a73e8;
+  pointer-events: none;
+}
+
 .payment-card {
   background: #ffffff;
   width: 100%;
