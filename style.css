@@ -13,27 +13,6 @@ body {
   padding: 12px;
 }
 
-/* টাকার ইনপুট ও প্লাস আইকনের স্টাইল */
-.amount-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.amount-wrapper input {
-  padding-right: 35px; /* প্লাস চিহ্নের জন্য জায়গা খালি রাখা */
-}
-
-.plus-icon {
-  display: none; /* ডিফল্টভাবে লুকানো থাকবে */
-  position: absolute;
-  right: 12px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #1a73e8;
-  pointer-events: none;
-}
-
 .payment-card {
   background: #ffffff;
   width: 100%;
@@ -46,7 +25,7 @@ body {
 .payment-card h2 {
   text-align: center;
   margin-top: 0;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   color: #1a73e8;
   font-size: 22px;
 }
@@ -77,6 +56,7 @@ body {
   margin-bottom: 4px;
 }
 
+/* ফর্ম ডিজাইন */
 .form-group {
   margin-bottom: 16px;
 }
@@ -107,7 +87,48 @@ body {
   border-color: #1a73e8;
 }
 
-/* ডাইনামিক ফিল্ডস */
+/* ========================================================= */
+/* 🟢 নতুন ও ফিক্সড: টাকার ইনপুট বক্স ও প্লাস (+) স্টাইল */
+/* ========================================================= */
+
+.amount-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.base-amount-box {
+  background-color: #e8f0fe;
+  border: 1px solid #1a73e8;
+  color: #1967d2;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 44px; /* ইনপুট ফিল্ডের সাথে সামঞ্জস্য রাখার জন্য */
+}
+
+.base-amount-box .plus-sign {
+  margin-left: 6px;
+  color: #d63384;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.total-preview {
+  display: block;
+  margin-top: 6px;
+  font-weight: bold;
+  color: #28a745;
+  font-size: 14px;
+}
+
+/* ========================================================= */
+
+/* ডাইনামিক ফিল্ডস (ডিফল্টভাবে হাইড থাকবে) */
 #receipt-details, 
 #cert-fields, 
 #problem-fields {
@@ -138,6 +159,7 @@ body {
   margin-bottom: 0;
 }
 
+/* সাবমিট বাটন */
 .submit-btn {
   width: 100%;
   background-color: #28a745;
