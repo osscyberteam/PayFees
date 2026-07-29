@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+      <link rel="icon" type="image/png" href="favicon.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="payment-card">
+  <h2><br> <h4 alig="center"> By OSS Team </h4></h2>
+
+  <!-- ফি তালিকা -->
+  <div class="fee-list-box">
+    <h4>ফি তালিকা (Fee Structure):</h4>
+    <ul>
+      <li><strong>সার্টিফিকেট ফি:</strong> ২১৮ টাকা</li>
+      <li><strong>রিনিউ সার্টিফিকেট ফি:</strong> ৩২৮ টাকা</li>
+      <li><strong>সোশ্যাল মিডিয়া একাউন্ট প্রবলেম ফিক্স ফি:</strong> ১৪৩ টাকা</li>
+      <li><strong>আদার্স:</strong> ০০ টাকা</li>
+    </ul>
+  </div>
+
+  <form id="paymentForm" name="google-sheet" onsubmit="handleFormSubmit(event)">
+    
+    <!-- ১. পেমেন্টের কারণ (Required) -->
+    <div class="form-group">
+      <label for="payment_reason">পেমেন্টের কারণ (Payment Reason) *</label>
+      <select id="payment_reason" name="payment_reason" onchange="onReasonChange()" required>
+        <option value="" disabled selected>-- পেমেন্টের কারণ বেছে নিন --</option>
+        <option value="certificate" data-amount="218">সার্টিফিকেট ফি (Certificate Fee)</option>
+        <option value="renew_certificate" data-amount="328">রিনিউ সার্টিফিকেট ফি (Renew Certificate Fee)</option>
+        <option value="social_fix" data-amount="143">সোশ্যাল মিডিয়া একাউন্ট প্রবলেম ফিক্স (Social Media Account Problem Fix)</option>
+        <option value="others" data-amount="00">আদার্স (Others)</option>
+      </select>
+    </div>
+
+    <!-- ২. আইডি নম্বর (Required) -->
+    <div class="form-group">
+      <label for="id_code">আপনার আইডি নম্বরটি লিখুন (Your ID Code) *</label>
+      <input type="text" id="id_code" name="id_code" placeholder="যেমন: ID-10293" required>
+    </div>
+
+    <!-- ৩. রেজিস্ট্রেশন নম্বর (Optional) -->
+    <div class="form-group">
+      <label for="reg_num">রেজিস্ট্রেশন নম্বর লিখুন (Registration Number - অপশনাল)</label>
+      <input type="text" id="reg_num" name="reg_num" placeholder="যেমন: REG-202488">
+    </div>
+
+    <!-- ৪. পেমেন্ট অপশন (Required) -->
+    <div class="form-group">
+      <label for="payment_option">পেমেন্ট অপশনটি নির্বাচন করুন (Payment Option) *</label>
+      <select id="payment_option" name="payment_option" onchange="onMethodChange()" required>
+        <option value="" disabled selected>-- পেমেন্ট মেথড বেছে নিন --</option>
+        <option value="bkash">বিকাশ (bKash)</option>
+        <option value="nagad">নগদ (Nagad)</option>
+        <option value="rocket">রকেট (Rocket)</option>
+      </select>
+    </div>
+
+    <!-- পেমেন্ট রিসিট ডিটেইলস -->
+    <div id="receipt-details">
+      <p id="method-instruction"></p>
+      
+      <!-- ৫. যে নম্বর থেকে টাকা পাঠিয়েছেন (Required) -->
+      <div class="form-group">
+        <label for="sender_number">যে নম্বর থেকে টাকা পাঠিয়েছেন (Sender Mobile Number) *</label>
+        <input type="tel" id="sender_number" name="sender_number" placeholder="যেমন: 017xxxxxxxx">
+      </div>
+
+      <!-- ৬. ট্রানজেকশন নম্বর (Required) -->
+      <div class="form-group">
+        <label for="trx_id">ট্রানজেকশন নম্বর (Transaction ID / TrxID) *</label>
+        <input type="text" id="trx_id" name="trx_id" placeholder="যেমন: 8N7A6D...">
+      </div>
+
+      <!-- ৭. কত টাকা পাঠিয়েছেন (Required) -->
+      <div class="form-group">
+        <label for="amount">কত টাকা পাঠিয়েছেন (Amount BDT) *</label>
+        <input type="number" id="amount" name="amount" placeholder="টাকার পরিমাণ">
+      </div>
+
+      <!-- সার্টিফিকেট সেকশন -->
+      <div id="cert-fields">
+        <hr class="divider">
+        <div class="form-group">
+          <label for="user_name">আপনার নাম (Your Name) *</label>
+          <input type="text" id="user_name" name="user_name" placeholder="আপনার পুরো নাম">
+        </div>
+
+        <div class="form-group">
+          <label for="user_phone">আপনার মোবাইল নম্বর (Your Mobile Number) *</label>
+          <input type="tel" id="user_phone" name="user_phone" placeholder="আপনার সচল মোবাইল নম্বর">
+        </div>
+
+        <div class="form-group margin-bottom-reset">
+          <label for="user_address">আপনার সম্পূর্ণ ঠিকানা (Your Full Address) *</label>
+          <textarea id="user_address" name="user_address" rows="3" placeholder="গ্রাম/রাস্তা, থানা, জেলা..."></textarea>
+        </div>
+      </div>
+
+      <!-- সমস্যার তথ্য সেকশন -->
+      <div id="problem-fields">
+        <hr class="divider">
+        <div class="form-group margin-bottom-reset">
+          <label for="problem_details">পেমেন্টের কারণ বা সমস্যার তথ্য (Payment Details / Problem Description) *</label>
+          <textarea id="problem_details" name="problem_details" rows="4" placeholder="আপনার সমস্যার বা পেমেন্টের কারণের বিস্তারিত লিখুন..."></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="submit" id="submitBtn" class="submit-btn">পেমেন্ট সাবমিট করুন</button>
+  </form>
+</div>
+
+<!-- সাকসেস পপ-আপ মডাল -->
+<div id="popupModal" class="modal-overlay">
+  <div class="modal-box">
+    <span class="close-btn" onclick="resetAndRefresh()">&times;</span>
+    <div class="success-icon">✓</div>
+    <h3>Your Payment Successful!</h3>
+    <p>আপনার পেমেন্ট তথ্য সফলভাবে গৃহিত হয়েছে।</p>
+    <button class="modal-btn" onclick="resetAndRefresh()">ঠিক আছে</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
